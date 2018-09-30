@@ -5,7 +5,8 @@ Université Paris Diderot
 https://www.fun-mooc.fr/courses/
 
 ------------------------------------------------------------
-## 1. Introduction and overview
+## Introduction and overview
 
-## 2. Basic types, definitions, and functions
+## Week 1. Basic types, definitions, and functions
 
+## Week 2: Basic Data Structures
