@@ -1,8 +1,7 @@
 
-let binary_search arr value =
-  let right = Array.length arr - 1 in
+let binary_search arr value left right =
   if Array.length arr < 1 then -1
-  else if (value > arr.(right) || value < arr.(0)) then -1
+  else if (value > arr.(right) || value < arr.(left)) then -1
 
   else
     let rec search l r =
@@ -14,7 +13,7 @@ let binary_search arr value =
       else if (mid_value > value) then search l (mid - 1)
 
       else search (mid + 1) r in
-    search 0 right;;
+    search left right;;
 
 
 #trace binary_search;;
@@ -23,12 +22,12 @@ let binary_search arr value =
 
 let find dict word =
   let right = Array.length dict - 1 in
-  let result = binary_search dict word in
+  let result = binary_search dict word 0 right in
   result;;
 
-find [|"a"; "b"; "c"|] "c";;
 find [|"a"; "b"; "c"|] "a";;
 find [|"a"; "b"; "c"|] "b";;
+find [|"a"; "b"; "c"|] "c";;
 
 find [|"a"; "b"; "c"|] "d";;
 find [||] "";;
