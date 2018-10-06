@@ -10,6 +10,14 @@ https://www.fun-mooc.fr/courses/
 ## Week 1. Basic types, definitions, and functions
 
 ## Week 2: Basic Data Structures
+- User-defined types
+- Tuples
+- Records
+- Arrays
+
+## Week 3: More Advanced Data Structures
+
+
 
 
 ------------------------------------------------------------
