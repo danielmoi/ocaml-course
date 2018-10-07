@@ -85,7 +85,8 @@ let delete db contact =
       Array.fold_left
       (fun contacts el ->
         if el.name = contact.name
-          then Array.append contacts [|nobody|]
+          then
+            Array.append contacts [|nobody|]
           (* then contacts *)
 
           (* this adds an empty to the end *)
@@ -113,11 +114,40 @@ let delete db contact =
     in
     (true, db', contact);;
 
+let update db contact =
+  (* NB. this was hiding the "contact" below *)
+  let (status, db, existing) = search db contact in
+
+  if not status then insert db contact
+  else
+    let cells =
+      Array.fold_left
+      (fun contacts el ->
+        if el.name = contact.name
+          then
+            (* prerr_endline "HELLO" in *)
+            Array.append contacts [| contact |]
+        else if el.name = ""
+          then Array.append contacts [|nobody|]
+        else Array.append [|el|] contacts
+      )
+      [||]
+      db.contacts
+      in
+      let db' = {
+        number_of_contacts = db.number_of_contacts;
+        contacts = cells;
+      }
+      in
+      (true, db', contact);;
+
+
 (* Engine parses and interprets the query. *)
 let engine db { code ; contact } =
   if code = 0 then insert db contact
   else if code = 1 then delete db contact
   else if code = 2 then search db contact
+  else if code = 3 then update db contact
   else (false, db, nobody);;
 
 let db = make 5 in
@@ -128,5 +158,7 @@ let db = make 5 in
   let z = engine new_db { code = 1; contact = { name = "A"; phone_number = (1,1,1,1) } } in
   let (_, new_db, _) = z in
   let a = engine new_db { code = 2; contact = { name = "B"; phone_number = (1,1,1,1) } } in
-  (x, y, z, a)
+  let (_, new_db, _) = a in
+  let b = engine new_db { code = 3; contact = { name = "B"; phone_number = (2,2,2,2) } } in
+  (x, y, z, a, b)
 ;;
