@@ -77,42 +77,6 @@ let delete db contact =
     in
     (true, db', contact);;
 
-let delete db contact =
-  let (status, db, contact) = search db contact in
-  if not status then (false, db, contact)
-  else
-    let cells =
-      Array.fold_left
-      (fun contacts el ->
-        if el.name = contact.name
-          then Array.append contacts [|nobody|]
-          (* then contacts *)
-
-          (* this adds an empty to the end *)
-        (* else if el.name = "" then Array.append contacts [|nobody|] *)
-
-        (* this just returns the contact list *)
-        (* else if el.name = "" then contacts *)
-
-        else if el.name = "" then Array.append contacts [|nobody|]
-
-        (* else Array.append contacts [|el|] *)
-        (* move all contacts to the top, keeping the same number of ALL contacts, including empties *)
-        else Array.append [|el|] contacts
-      )
-      (* not:
-      [|db.contacts.(0)|]
-      *)
-      [||]
-      db.contacts
-      in
-    let db' = {
-        number_of_contacts = db.number_of_contacts - 1;
-        contacts = cells
-      }
-    in
-    (true, db', contact);;
-
 (* Engine parses and interprets the query. *)
 let engine db { code ; contact } =
   if code = 0 then insert db contact

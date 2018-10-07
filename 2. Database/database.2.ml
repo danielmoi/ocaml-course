@@ -85,20 +85,9 @@ let delete db contact =
       Array.fold_left
       (fun contacts el ->
         if el.name = contact.name
-          then Array.append contacts [|nobody|]
+          then Array.append contacts [nobody]
           (* then contacts *)
-
-          (* this adds an empty to the end *)
-        (* else if el.name = "" then Array.append contacts [|nobody|] *)
-
-        (* this just returns the contact list *)
-        (* else if el.name = "" then contacts *)
-
-        else if el.name = "" then Array.append contacts [|nobody|]
-
-        (* else Array.append contacts [|el|] *)
-        (* move all contacts to the top, keeping the same number of ALL contacts, including empties *)
-        else Array.append [|el|] contacts
+        else Array.append contacts [|el|]
       )
       (* not:
       [|db.contacts.(0)|]
@@ -120,13 +109,47 @@ let engine db { code ; contact } =
   else if code = 2 then search db contact
   else (false, db, nobody);;
 
-let db = make 5 in
-  let x = engine db { code = 0; contact = { name = "A"; phone_number = (1,1,1,1) } } in
-  let (_, new_db, _) = x in
-  let y = engine new_db { code = 0; contact = { name = "B"; phone_number = (1,1,1,1) } } in
-  let (_, new_db, _) = y in
-  let z = engine new_db { code = 1; contact = { name = "A"; phone_number = (1,1,1,1) } } in
-  let (_, new_db, _) = z in
-  let a = engine new_db { code = 2; contact = { name = "B"; phone_number = (1,1,1,1) } } in
-  (x, y, z, a)
-;;
+(*
+let db = make 5;;
+  let contact1 = {
+    name = "Pikachu";
+    phone_number = (1,2,3,4);
+  } in
+  let contact2 = {
+    name = "Mewtwo";
+    phone_number = (1,2,3,4);
+  } in
+  let insert1 = insert db contact1 in
+  insert1;;
+  let search1 = search db contact1 in
+  (* let insert2 = insert db contact2 in
+  let search2 = search db contact2 in
+  search2;; *)
+
+(* incorrect syntax
+  let proof_of_bug =
+  [|
+    "let db = make 5";
+    "let contact1 = { name = "Pikachu"; phone_number = (1, 2, 3, 4) }";
+  |];;
+*)
+
+*)
+
+let proof_of_bug =
+  let contact1 = { name = "Pikachu"; phone_number = ( 1, 2, 3, 4) } in
+  let db = make 0 in
+  [|
+    engine db { code = 0; contact = contact 1 };
+  |];;
+
+let proof_of_bug =
+  let contact1 = { name = "Pikachu"; phone_number = (1, 2, 3, 4) } in
+  let contact2 = { name = "Pichu"; phone_number = (1, 2, 3, 4) } in
+  let db = make 0 in
+  [|
+    { code = 0; contact = contact1 };
+    { code = 0; contact = contact2 };
+    { code = 1; contact = contact1 };
+    { code = 2; contact = contact2 };
+  |];;
