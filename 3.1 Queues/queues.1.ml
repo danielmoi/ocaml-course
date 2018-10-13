@@ -82,8 +82,6 @@ half ([1;2;3],[4;5]);;
 
 half ([1], [2;3;4;5]);;
 
-(*******************************************)
-
 let rec half (front, back) =
   match (front, back) with
   | ([], []) -> ([], [])
@@ -91,7 +89,7 @@ let rec half (front, back) =
     if List.length back <= List.length front then (front, back)
     else
       let b1::b2 = back in
-      half (front @ [b1], b2)
+      (front @ [b1], b2)
   ;;
 
 let split list =
@@ -102,80 +100,5 @@ let split list =
   | h :: rest ->
     half ([h], rest)
     ;;
-# trace split;;
-split [-1; 0; -4; -4; 4; 3; -3];;
 
-#untrace_all;;
-
-(*******************************************)
-
-let rec half (front, back) =
-  match (front, back) with
-  | ([], []) -> ([], [])
-  | _ ->
-    if List.length back <= List.length front then (front, back)
-    else
-      let b1::b2 = back in
-      half (front @ [b1], b2)
-  ;;
-
-let split list =
-  match list with
-  | [] -> ([], [])
-  | [x] -> ([x], [])
-  | [a;b] -> ([a], [b])
-  | h :: rest ->
-    half ([h], rest)
-    ;;
-# trace split;;
-split [-1; 0; -4; -4; 4; 3; -3];;
-
-#untrace_all;;
-
-(*******************************************)
-
-let rec half (front, back) =
-  match (front, back) with
-  | ([], []) -> ([], [])
-  | _ ->
-    if List.length back <= List.length front then (front, back)
-    else
-      let reversed_back = List.rev back in
-      (* last::rest is not exhaustive *)
-      let last::rest = reversed_back in
-      half (front @ [last], List.rev rest)
-  ;;
-
-let split list =
-  match list with
-  (* neeed to start with empty list *)
-  | [] -> ([], [])
-  | h :: rest ->
-    half ([], list)
-    ;;
-
-split [1;2;3;4;5];;
-
-(*******************************************)
-
-let rec half (front, back) =
-  match (front, back) with
-  | (_, []) -> (front, back)
-  | (_, [x]) -> (front, back)
-  | _ ->
-    if List.length back <= List.length front then (front, back)
-    else
-      let reversed_back = List.rev back in
-      let last::rest = reversed_back in
-      half (front @ [last], List.rev rest)
-  ;;
-
-let split list =
-  match list with
-  | [] -> ([], [])
-  | h :: rest ->
-    half ([], list)
-    ;;
-
-split [1;2;3;4;5];;
-
+split [-1; 0; -4; -4; 4; 3; -3]
