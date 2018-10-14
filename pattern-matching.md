@@ -87,3 +87,23 @@ let m5 a =
 - : int = 3
 # m5 [1;2;3;4;5];;
 - : int = 4
+
+```
+------------------------------------------------------------
+##
+```ocaml
+let lookup trie str =
+  match trie, str with
+  | _ -> None
+;;
+```
+
+This is not:
+```ocaml
+let lookup trie str =
+  match (int, str), str with
+  | _ -> None
+;;
+
+Error: Unbound value int
+```
