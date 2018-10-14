@@ -66,3 +66,24 @@ let m4 a b =
 # m4 1 3;;
 - : int = 1
 
+```
+
+------------------------------------------------------------
+## Lists: _ only matches ONE element, not the "rest" of the list
+```ocaml
+let m5 a =
+  match a with
+  | [x] -> 1
+  | [x; _] -> 2
+  | [x; _; _] -> 3
+  | x::rest -> 4
+  | _ -> 5
+  ;;
+
+- : int = 1
+# m5 [1;2];;
+- : int = 2
+# m5 [1;2;3];;
+- : int = 3
+# m5 [1;2;3;4;5];;
+- : int = 4
