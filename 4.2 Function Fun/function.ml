@@ -145,3 +145,11 @@ let rec equal_on_common = function l1 -> function
   else if (r1 = [] && r2 =[]) then true
   else h1=h2 && equal_on_common r1 r2
 ;;
+
+let rec equal_on_common = function l1 -> function
+| [] -> true
+| h2::[] ->
+  if l1 = [] then true
+  else let h1::[] =
+| h2::r2 ->
+;;
